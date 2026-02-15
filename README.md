@@ -1,8 +1,5 @@
 # Column Registry - Dynamic Spreadsheet Column Tracking
 
-A self-healing column tracking system for Google Sheets that automatically reconciles column positions when columns are moved, renamed, or deleted. Designed for Apps Script automation where multiple scripts track need columns across shared sheets.
-
-## Problem It Solves
 This is a more robust way to track columns that are referenced in scripts.  Hardcoding column positions, using named ranges, or searching for a hardcoded header string are all fragile.  
 **Column Registry** maintains a central registry mapping that automatically detects and reconciles repositions and renames of columns so that you can reference the column position in scripts even if the names or position of the columns changes.
 
@@ -56,11 +53,6 @@ When `updateColumns()` runs, it attempts to locate each registered column in thr
 ### Automatic Tooltip Tracking
 
 Each registered column gets a tooltip in its header cell: `scriptId:variableId`
-
-This allows columns to be tracked even after:
-- Header names change
-- Columns are moved around
-- Columns are inserted/deleted nearby
 
 ### Proactive Cross-Script Updates
 
@@ -185,23 +177,7 @@ function updateDonorStats() {
 
 ## Last_Run Tracking
 
-The `Last_Run` column tracks when each entry was last **accessed** (not updated):
-
-- **Updated when:** `getColumnPosition()` or `getColumnPositions()` is called with a valid position
-- **NOT updated when:** `updateColumns()` runs, or maintenance functions execute
-- **Purpose:** Identify stale entries for pruning (>13 months old)
-
-This distinguishes between "actively used" vs "orphaned" registry entries.
-
-## Registry Maintenance
-
-### Automatic Pruning
-
-Entries older than **13 months** are candidates for pruning.  13 months was chosen by default since the project that prompted this script is an accounting spreadsheet that has some scripts that are run on a yearly basis. You can change the PRUNE_THRESHOLD_MS constant to suit your use case.
-
-```javascript
-performRegistryMaintenance();  // Shows list of old entries, asks for confirmation
-```
+The `Last_Run` column tracks when each entry was last **accessed**.  Entries older than **13 months** are candidates for pruning by running performRegistryMaitenance().  13 months was chosen by default since the project that prompted this script is an accounting spreadsheet that has some scripts that are run on a yearly basis. You can change the PRUNE_THRESHOLD_MS constant to suit your use case.
 
 ## License
 
