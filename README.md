@@ -124,7 +124,7 @@ Full maintenance: prune old entries, update all scripts, rebuild tooltips.
 
 **Three phases:**
 
-1. **Prune** – Removes entries not accessed for >13 months
+1. **Prune** – Removes entries not accessed for > PRUNE_THRESHOLD_MS (13 months by default)
 2. **Update** – Runs `updateColumns()` for each registered script
 3. **Rebuild** – Clears and rebuilds all tooltips from registry
 
