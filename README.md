@@ -1,6 +1,7 @@
 # Column Registry - Dynamic Spreadsheet Column Tracking
 
 This is a more robust way to track columns that are referenced in scripts.  Hardcoding column positions, using named ranges, or searching for a hardcoded header string are all fragile.  
+
 **Column Registry** maintains a central registry mapping that automatically detects and reconciles repositions and renames of columns so that you can reference the column position in scripts even if the names or position of the columns changes.
 
 ## Quick Start
@@ -57,6 +58,10 @@ Each registered column gets a tooltip in its header cell: `scriptId:variableId`
 ### Proactive Cross-Script Updates
 
 When a tracked column relocates, the registry automatically updates all other scripts tracking the same column.
+
+### Last_Run Tracking and Pruning Stale Entries
+
+The `Last_Run` column tracks when each entry was last **accessed**.  Entries older than **13 months** are candidates for pruning by running performRegistryMaitenance().  13 months was chosen by default since the project that prompted this script is an accounting spreadsheet that has some scripts that are run on a yearly basis. You can change the PRUNE_THRESHOLD_MS constant to suit your use case.
 
 ## API Reference
 
@@ -174,10 +179,6 @@ function updateDonorStats() {
   }
 }
 ```
-
-## Last_Run Tracking
-
-The `Last_Run` column tracks when each entry was last **accessed**.  Entries older than **13 months** are candidates for pruning by running performRegistryMaitenance().  13 months was chosen by default since the project that prompted this script is an accounting spreadsheet that has some scripts that are run on a yearly basis. You can change the PRUNE_THRESHOLD_MS constant to suit your use case.
 
 ## License
 
